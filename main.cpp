@@ -25,18 +25,38 @@ class standart_Car{
         dx=input_dx;
         dy=input_dy;
     }
-    
+    //метод, отвечающий за движение по дороге, не учитывает близость 
+    //других объектов
+    void Calc(){
+        //если надо ехать вдоль оси x
+        if (x + dx + y == 1){//по-нормальному так: if (Map_city[x+dx][y] == 1)
+           SetParameters(x+dx,y,dx+1,0); 
+        }
+        //если надо ехать вдоль оси y
+        else if(x + y + dy == -1){//по-нормальному так: if (Map_city[x][y+dy] == 1)
+            SetParameters(x,y+dy,0,dy+1);
+        }
+        //если с такой скоростью вылетаешь за дорогу, понижаем скорость
+        //в конечном итоге, если некуда ехать - стоим
+        else{
+            SetParameters(x,y,dx-1,dy-1); 
+            Calc();
+        }
+    }
 	//метод, для извлечение параметров объекта
 	//параметры хранятся в массиве parameters
 	void GetParameters(){
-        //cout<<x<<endl;
-        //cout<<y<<endl;
-        //cout<<dx<<endl;
-        //cout<<dy<<endl;
+        
+        cout<<x<<endl;
+        cout<<y<<endl;
+        cout<<dx<<endl;
+        cout<<dy<<endl;
+        
         parameters.push_back(x);
         parameters.push_back(y);
         parameters.push_back(dx);
         parameters.push_back(dy);
+        
     }
     /*
      1)Метод проверка близости к другим объектам
@@ -51,21 +71,25 @@ class standart_Car{
 
 int main()
 {
-
     bool life;
     life= true;
-    
+//    int Map_city[100][100]; матрица карты 
 //создание объекта класса Car
 //в дальнейшем объекты будут создаваться циклом, 
 //так как будет много автомобилей
     standart_Car Test_Car;
+
+//1)Задание начальных параметров, всё завязано на матрице карты
+//Одним циклом зададим много объектов
+    Test_Car.SetParameters(1,0,0,4);//образец
+
 
 //Бесконечный цикл для запуска симуляции
 while (life==true){
     
     //Последовательность действий (надо придумать)
     //Одинаковая для всех, но с разными числами x y dx dy
-    Test_Car.SetParameters(1,2,3,4);//образец
+    Test_Car.Calc(); //передвижение по дороге без учёта близости объектов
     Test_Car.GetParameters();
  /*
  1)Задание начальных параметров, всё завязано на матрице карты
@@ -75,8 +99,7 @@ while (life==true){
  ....
  Также стоит подумать о функции задерживании времени(для понятной визуализации) 
  */
-  
 }
-    return 0;
+return 0;
 }
 
