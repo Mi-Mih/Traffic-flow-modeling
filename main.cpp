@@ -82,8 +82,7 @@ class standart_Car{
 
 int main()
 {
-    bool life;
-    life= true;
+    bool life=true;
 //    int map_coord[100][100]; матрица-карта, показывающая распределение объектов
 //    int map_speed[100][100]; матрица-карта СКОРОСТЕЙ машин
 /* 
