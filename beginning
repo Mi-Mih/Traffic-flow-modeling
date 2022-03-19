@@ -1,0 +1,117 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+//класс машинок
+class Cars {
+    public:
+        int x_n; //координата в данный момент
+        int y_n;
+        int x_f; //координата в будущем
+        int y_f;
+
+//изменение координат в зависимости от того, куда едет машинка
+        void Car_Direction_Right(int x_n, int y_n){
+            x_f = x_n;
+            y_f = y_n+1;
+        }
+        void Car_Direction_Left(){
+            x_f = x_n;
+            y_f = y_n-1;
+        }
+        void Car_Direction_Up(){
+            x_f = x_n-1;
+            y_f = y_n;
+        }
+        void Car_Direction_Down(){
+            x_f = x_n+1;
+            y_f = y_n;
+        }
+};
+//изменение матрицы карты
+int Change_Map(int map[5][5], int x, int y, int x_f, int y_f){
+    map[x][y]=1;
+    map[x_f][y_f]=2;
+};
+//4 функции которые говорят о том, есть дальше дорога или нет
+string Look_Map_Right(int map[5][5], int x, int y){
+    string to_do;
+    if (map[x][y+1] == 1){
+        to_do = "Go";
+    }
+    return to_do;
+}
+string Look_Map_Left(int map[5][5], int x, int y){
+    string to_do;
+    if (map[x][y-1] == 1){
+        to_do = "Go";
+    }
+    return to_do;
+}
+string Look_Map_Up(int map[5][5], int x, int y){
+    string to_do;
+    if (map[x-1][y] == 1){
+        to_do = "Go";
+    }
+    return to_do;
+}
+string Look_Map_Down(int map[5][5], int x, int y){
+    string to_do;
+    if (map[x+1][y] == 1){
+        to_do = "Go";
+    }
+    return to_do;
+};
+
+//рисую карту
+void print(int map[5][5]){
+    for (int i = 0; i < 5; i++) //переключение по строкам
+    {
+        for (int j = 0; j < 5; j++){// переключение по столбцам
+            cout << map[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << " " <<endl;
+};
+
+
+int main() {
+
+    int map[5][5] = {{0,0,1,0,0},
+                     {0,0,1,0,0},
+                     {1,1,1,1,1},
+                     {0,0,1,0,0},
+                     {0,0,1,0,0}};
+
+    print(map);
+
+// пусть изначально машинка в определенной координате и движется вправо
+    Cars car;
+    int x = car.x_n = 2;
+    int y = car.y_n = 0;
+    map[x][y] = 2;
+    string car_direction = "right";
+
+    print(map);
+
+ // пока она не доехала до конца карты запускаю цикл
+    while (y < 4) {
+        string what_to_do = Look_Map_Right(map, x, y); //смотрю, можно ли ехать дальше вправо
+        //если да, то еду вправо и соответственно
+        if (what_to_do == "Go") {
+            car.Car_Direction_Right(x, y); //изменяю координаты
+            int x_f = car.x_f;
+            int y_f = car.y_f;
+            Change_Map(map, x, y, x_f, y_f); //изменяю карту
+            x = x_f; // ну и меняю координаты местоположения
+            y = y_f;
+        }
+
+        print(map);
+    }
+
+
+
+    return 0;
+    }
