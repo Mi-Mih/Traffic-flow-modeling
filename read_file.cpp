@@ -9,7 +9,7 @@ int main()
 {
     vector<vector<int> > map;
     string line;
-    ifstream in("C:/Users/miham/source/repos/traffic/input.txt");
+    ifstream in("input.txt");
     for (int i = 0; getline(in, line); i++) {
         vector<int> vec; //создаем одномерный вектор
         for (int j = 0; j < line.size(); j++) {
