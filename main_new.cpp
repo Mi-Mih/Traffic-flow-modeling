@@ -172,7 +172,7 @@ int main()
     for (int i = 0; i < row; i++) {
         map[i] = new int[column];     // инициализация указателей
     }
-    //число - объект
+    //с входного файла заносим данные в матрицу карт map
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
             map[i][j] = input_data[i][j];
