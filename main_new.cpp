@@ -12,7 +12,12 @@ public:
     int y_n;
     int x_f;
     int y_f;
-
+Cars() {
+        x_n = 0;
+        y_n = 0;
+        x_f = 1;
+        y_f = 1;
+    }
     void Car_Direction_Right(int x_n, int y_n) {
         x_f = x_n;
         y_f = y_n + 1;
