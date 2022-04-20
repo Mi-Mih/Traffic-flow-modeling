@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+
 using namespace std;
 
 #define WHITE 0
@@ -102,7 +103,8 @@ int max_flow(int source, int stock)
 
 int main()
 {
-
+    //максимальный/минимальный поток (координаты соотв участков)
+    int max_x = 0, max_y = 0, min_x = 0, min_y = 0;
 //подключается <fstream> <vector> <string>
 //матрица карты в файле
     vector<vector<int> > input_data;
@@ -154,12 +156,33 @@ int main()
     cout << "Матрица распределения потоков: " << endl;
     for (int i = 0; i < row; i++)
     {
-        for (int j = 0; j < column; j++)
+        for (int j = 0; j < column; j++) {
             cout << flow[i][j] << " ";
+        }
         cout << endl;
     }
+    //поиск участка с минимальным/максимальным потоком
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (abs(flow[i][j]) >= abs(flow[max_y][max_x])) max_x = j, max_y = i;
+            if (abs(flow[i][j]) >= abs(flow[min_y][min_x])) min_x = j, min_y = i;
+        }
+    }
+    //запись матрицы в файл
+    ofstream out("flow.txt", ios::out);
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++) {
+            out << flow[i][j] <<" ";
+        }
+        out << ' ' << endl;
 
-    //ДОБАВИТЬ БЛОК ЗАПИСЬ РАСПРЕДЕЛЕНИЯ ПОТОКОВ В ФАЙЛ
+    }
+    out << "Максимальный поток на участке " <<max_x<<"-" <<max_y<<" и равен " <<abs(flow[max_y][max_x]) << endl;
+    out << "Минимальный поток на участке " << min_x << "-" << min_y <<" и равен "<< abs(flow[min_y][min_x]) << endl;
+
+    out.close();
+
 
     _getche(); //кто это?
     return 0;
